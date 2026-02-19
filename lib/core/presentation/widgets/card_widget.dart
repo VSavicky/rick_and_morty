@@ -1,25 +1,17 @@
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:rick_and_morty/core/models/character_model.dart';
 
-class CardWidget extends StatefulWidget {
-  String name;
-  int age;
-  String imageSrc;
-  VoidCallback onPressed;
+class CardWidget extends StatelessWidget {
+  final CharacterModel item;
+  final VoidCallback onPressed;
 
   CardWidget({
     super.key,
-    required this.name,
-    required this.age,
-    required this.imageSrc,
+    required this.item,
     required this.onPressed,
   });
+  
 
-  @override
-  State<CardWidget> createState() => _CardWidgetState();
-}
-
-class _CardWidgetState extends State<CardWidget> {
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -39,7 +31,8 @@ class _CardWidgetState extends State<CardWidget> {
                 topLeft: Radius.circular(20),
                 bottomLeft: Radius.circular(20),
               ),
-              child: Image.network(widget.imageSrc, fit: BoxFit.cover),
+              child: AspectRatio(aspectRatio: 1,
+              child: Image.network(item.image, fit: BoxFit.cover)),
             ),
           ),
           Flexible(
@@ -55,20 +48,20 @@ class _CardWidgetState extends State<CardWidget> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        widget.name,
+                        item.name,
                         style: TextStyle(
                           fontWeight: FontWeight.bold,
                           fontSize: 24,
                         ),
                       ),
                       Text(
-                        widget.age.toString(),
+                        item.status,
                         style: TextStyle(fontSize: 24),
                       ),
                     ],
                   ),
                       IconButton(
-                        onPressed: widget.onPressed,
+                        onPressed: onPressed,
                         icon: const Icon(Icons.star),
                       ),
                 ],
