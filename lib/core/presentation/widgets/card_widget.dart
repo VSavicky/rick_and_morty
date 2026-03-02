@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:rick_and_morty/core/models/character_model.dart';
 
@@ -5,12 +6,7 @@ class CardWidget extends StatelessWidget {
   final CharacterModel item;
   final VoidCallback onPressed;
 
-  CardWidget({
-    super.key,
-    required this.item,
-    required this.onPressed,
-  });
-  
+  const CardWidget({super.key, required this.item, required this.onPressed});
 
   @override
   Widget build(BuildContext context) {
@@ -22,7 +18,7 @@ class CardWidget extends StatelessWidget {
       ),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
-       
+
         children: [
           Flexible(
             flex: 3,
@@ -31,12 +27,15 @@ class CardWidget extends StatelessWidget {
                 topLeft: Radius.circular(20),
                 bottomLeft: Radius.circular(20),
               ),
-              child: AspectRatio(aspectRatio: 1,
-              child: Image.network(item.image, fit: BoxFit.cover,
-              errorBuilder: (context, error, stackTrace) {
-                  return Text('картинка не загрузилась');
-                },
-    )),
+              child: AspectRatio(
+                aspectRatio: 1,
+                child: CachedNetworkImage(
+                  imageUrl: item.image,
+                  fit: BoxFit.cover,
+                  placeholder: (context, url) => const Center(child: CircularProgressIndicator()),
+                  errorWidget: (context, url, error) => const Center(child: Icon(Icons.error)),
+                ),
+              ),
             ),
           ),
           Flexible(
@@ -58,16 +57,13 @@ class CardWidget extends StatelessWidget {
                           fontSize: 24,
                         ),
                       ),
-                      Text(
-                        item.status,
-                        style: TextStyle(fontSize: 24),
-                      ),
+                      Text(item.status, style: TextStyle(fontSize: 24)),
                     ],
                   ),
-                      IconButton(
-                        onPressed: onPressed,
-                        icon: const Icon(Icons.star),
-                      ),
+                  IconButton(
+                    onPressed: onPressed,
+                    icon: const Icon(Icons.star),
+                  ),
                 ],
               ),
             ),
