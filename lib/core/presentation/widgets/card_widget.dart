@@ -32,7 +32,11 @@ class CardWidget extends StatelessWidget {
                 bottomLeft: Radius.circular(20),
               ),
               child: AspectRatio(aspectRatio: 1,
-              child: Image.network(item.image, fit: BoxFit.cover)),
+              child: Image.network(item.image, fit: BoxFit.cover,
+              errorBuilder: (context, error, stackTrace) {
+                  return Text('картинка не загрузилась');
+                },
+    )),
             ),
           ),
           Flexible(
