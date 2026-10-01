@@ -10,6 +10,7 @@ class CardWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    Color statusColor = item.status == 'Alive' ? Colors.green : item.status == 'Dead' ? Colors.red : Colors.orange;
     return Container(
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(20),
@@ -18,7 +19,6 @@ class CardWidget extends StatelessWidget {
       ),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
-
         children: [
           Flexible(
             flex: 3,
@@ -44,25 +44,30 @@ class CardWidget extends StatelessWidget {
               padding: const EdgeInsets.symmetric(horizontal: 15),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                crossAxisAlignment: CrossAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  Column(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        item.name,
-                        style: TextStyle(
-                          fontWeight: FontWeight.bold,
-                          fontSize: 24,
+                  Flexible(
+                    flex: 2,
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          item.name,
+                          style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            fontSize: 24,
+                          ),
+                          softWrap: true,
                         ),
-                      ),
-                      Text(item.status, style: TextStyle(fontSize: 24)),
-                    ],
+                        Text(item.status, style: TextStyle(fontSize: 24, color: statusColor)),
+                      ],
+                    ),
                   ),
                   IconButton(
                     onPressed: onPressed,
                     icon: const Icon(Icons.star),
+                    iconSize: 35,
                   ),
                 ],
               ),
